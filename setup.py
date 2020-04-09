@@ -12,7 +12,7 @@ def read(*paths):
 
 setup(
     name='covid-ru',
-    version='0.0.2',
+    version='0.0.3',
     packages=['covid_ru'],
     url='https://github.com/strizhechenko/covid-ru',
     license='MIT',
