@@ -8,6 +8,14 @@ import bs4
 import requests
 
 
+def abc2int(s):
+    if ',' not in s:
+        return s.replace('млн', '0' * 6)
+    s = s.replace('млн', '')
+    f = len(s.split(',')[1])
+    return s.replace(',', '') + '0' * (6 - f)
+
+
 def ru(args):
     data = requests.get("https://стопкоронавирус.рф").content
     soup = bs4.BeautifulSoup(data, "html.parser")
@@ -28,7 +36,7 @@ def ru(args):
             value = item.find("div", attrs={"class": "cv-countdown__item-value"}).text.strip().replace(" ", "")
             value = value.replace('>', '')
             if 'млн' in value:
-                value = value.replace('млн', '00000' if ',' in value else '000000')
+                value = abc2int(value)
             print("{0:10} {1}".format(key, value))
 
 
