@@ -24,7 +24,9 @@ def ru(args):
         'Проведено тестов': 'tests',
         'Случаев заболевания': 'cases',
         'Человек выздоровело': 'recovered',
-        'Человек умерло': 'dead'
+        'Человек умерло': 'dead',
+        'Человек выздоровел': 'recovered',
+        'Человек умер': 'dead',
     }
     print("{0:10} {1}".format("date", str(datetime.datetime.now()).split()[0]))
     for item in stat.find_all("div", attrs={"class": "cv-countdown__item"}):
