@@ -3,6 +3,7 @@
 import argparse
 import datetime
 import re
+import sys
 
 import bs4
 import requests
@@ -23,16 +24,23 @@ def ru(args):
     stat_map = {
         'Проведено тестов': 'tests',
         'Случаев заболевания': 'cases',
+        'Случая заболевания': 'cases',
+        'Случай заболевания': 'cases',
+        'Человека выздоровело': 'recovered',
         'Человек выздоровело': 'recovered',
-        'Человек умерло': 'dead',
         'Человек выздоровел': 'recovered',
+        'Человека умерло': 'dead',
+        'Человек умерло': 'dead',
         'Человек умер': 'dead',
     }
     print("{0:10} {1}".format("date", str(datetime.datetime.now()).split()[0]))
     for item in stat.find_all("div", attrs={"class": "cv-countdown__item"}):
         label = re.sub(r"[\t\s]+", " ", item.find("div", attrs={"class": "cv-countdown__item-label"}).text.strip())
+        if 'за последние сутки' in label:
+            continue
         key = stat_map.get(label)
         if not key:
+            print("Didn't find key for label {0}".format(label), file=sys.stderr)
             continue
         if hasattr(args, key) and getattr(args, key):
             value = item.find("div", attrs={"class": "cv-countdown__item-value"}).text.strip().replace(" ", "")
