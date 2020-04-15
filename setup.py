@@ -12,7 +12,7 @@ def read(*paths):
 
 setup(
     name='covid-ru',
-    version='0.0.7',
+    version='0.0.8',
     packages=['covid_ru'],
     url='https://github.com/strizhechenko/covid-ru',
     license='MIT',
@@ -29,7 +29,6 @@ setup(
         'Programming Language :: Python :: 3.7',
     ],
     install_requires=[
-        'beautifulsoup4',
         'requests',
     ],
     entry_points={
