@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
 
 import argparse
-import datetime
 import re
 import sys
 
 import bs4
 import requests
+
+
+def url2soup(url):
+    return bs4.BeautifulSoup(requests.get(url).content, "html.parser")
 
 
 def abc2int(s):
@@ -18,8 +21,8 @@ def abc2int(s):
 
 
 def ru(args):
-    data = requests.get("https://стопкоронавирус.рф").content
-    soup = bs4.BeautifulSoup(data, "html.parser")
+    # url = "https://стопкоронавирус.рф" # https://covid19.rosminzdrav.ru
+    soup = url2soup("https://стопкоронавирус.рф")
     stat = soup.find("div", attrs={"class": "cv-countdown"})
     stat_map = {
         'Проведено тестов': 'tests',
@@ -33,7 +36,6 @@ def ru(args):
         'Человек умерло': 'dead',
         'Человек умер': 'dead',
     }
-    print("{0:10} {1}".format("date", str(datetime.datetime.now()).split()[0]))
     for item in stat.find_all("div", attrs={"class": "cv-countdown__item"}):
         label = re.sub(r"[\t\s]+", " ", item.find("div", attrs={"class": "cv-countdown__item-label"}).text.strip())
         if 'за последние сутки' in label:
