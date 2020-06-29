@@ -14,6 +14,8 @@ def main():
     for i in data['Items']:
         for key in total.keys():
             total[key] += i[key]
+    total['Sick'] = total['Confirmed'] - total['Deaths'] - total['Recovered']
+    total['Solved'] = "{0:.2f}%".format(100 * (1 - (total['Sick'] / total['Confirmed'])))
     return total
 
 
